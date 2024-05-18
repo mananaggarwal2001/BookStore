@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookStore Landing Page</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1>Welcome to Our BookStore</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Books</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <h2>Find Your Next Favorite Book</h2>
+        <p>Explore our vast collection of books in every genre imaginable.</p>
+        <button onclick="location.href='#'" type="button">Login</button>
+        <button onclick="location.href='#'" type="button">Register</button>
+    </div>
+</section>
+
+<section class="featured-books">
+    <div class="container">
+        <h2>Featured Books</h2>
+        <div class="books">
+            <div class="book">
+                <img src="https://via.placeholder.com/150" alt="Book 1">
+                <h3>Book Title 1</h3>
+                <p>Author Name</p>
+            </div>
+            <div class="book">
+                <img src="https://via.placeholder.com/150" alt="Book 2">
+                <h3>Book Title 2</h3>
+                <p>Author Name</p>
+            </div>
+            <div class="book">
+                <img src="https://via.placeholder.com/150" alt="Book 3">
+                <h3>Book Title 3</h3>
+                <p>Author Name</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="about">
+    <div class="container">
+        <h2>About Us</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquam magna sit amet ante tristique, vel blandit quam ultricies.</p>
+    </div>
+</section>
+
+<section class="contact">
+    <div class="container">
+        <h2>Contact Us</h2>
+        <p>Have questions or concerns? Reach out to us!</p>
+        <button onclick="location.href='#'" type="button">Contact Us</button>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2024 BookStore. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>
