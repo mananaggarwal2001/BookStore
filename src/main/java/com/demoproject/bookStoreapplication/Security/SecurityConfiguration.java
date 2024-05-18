@@ -30,7 +30,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(config ->
-                config.requestMatchers("/css/**", "/js/**", "/images/**", "/", "/login", "/register", "/processregistration").permitAll());
+                config.requestMatchers("/css/**", "/js/**","/assets/**", "/images/**", "/", "/login", "/register", "/processregistration").permitAll());
         return http.build();
     }
 }
