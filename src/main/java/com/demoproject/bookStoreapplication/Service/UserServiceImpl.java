@@ -17,12 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ServiceImpl implements ServiceProvider {
+public class UserServiceImpl implements UserServiceProvider {
     UserDAO userDAO;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public ServiceImpl(UserDAO userDAO, BCryptPasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserDAO userDAO, BCryptPasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
         this.passwordEncoder = passwordEncoder;
     }
@@ -47,6 +47,12 @@ public class ServiceImpl implements ServiceProvider {
     @Override
     public Register findUser(String username) {
         return userDAO.findUser(username);
+    }
+
+    @Override
+    @Transactional
+    public void addUpdatedUser(Register register) {
+        userDAO.addUser(register);
     }
 
 

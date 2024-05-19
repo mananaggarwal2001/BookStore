@@ -1,16 +1,12 @@
 package com.demoproject.bookStoreapplication.Security;
 
-import com.demoproject.bookStoreapplication.Service.ServiceProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.demoproject.bookStoreapplication.Service.UserServiceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
-import java.io.Serial;
 
 @Configuration
 public class SecurityConfiguration {
@@ -21,9 +17,9 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(ServiceProvider serviceProvider) {
+    public DaoAuthenticationProvider daoAuthenticationProvider(UserServiceProvider userServiceProvider) {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(serviceProvider);
+        daoAuthenticationProvider.setUserDetailsService(userServiceProvider);
         daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
         return daoAuthenticationProvider;
     }

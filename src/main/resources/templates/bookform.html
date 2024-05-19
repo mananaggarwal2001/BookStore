@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!-- Created By CodingLab - www.codinglabweb.com -->
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> AddBook </title>
+    <link rel="stylesheet" th:href="@{/css/registration.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="container">
+    <div class="title">Add a Book</div>
+    <div class="content">
+        <form action="#" th:object="${book}" th:action="@{/processAddingBook}" method="post">
+            <div class="user-details">
+                <div class="input-box">
+                    <span class="details">Book Title</span>
+                    <input type="text" th:field="${book.title}" placeholder="Enter your Book Title" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Book Price</span>
+                    <input type="text" th:field="${book.price}" placeholder="Enter your price" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Book Available Quantity</span>
+                    <input type="text" th:field="${book.availableQuantity}" placeholder="Enter your Quantity" required>
+                </div>
+            </div>
+            <div class="button">
+                <input type="submit" value="Add Book">
+            </div>
+        </form>
+        <span>Go Back To the <a th:href="@{/dashboard}">Dashboard!!!!</a></span>
+    </div>
+</div>
+
+</body>
+</html>

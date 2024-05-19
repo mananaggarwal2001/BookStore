@@ -1,0 +1,18 @@
+.containerclass {
+    color: white !important;
+}
+
+.userclass, .textclass {
+    color: white;
+    font-size: large;
+}
+
+.textclass {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: larger;
+    margin-right: 12px;
+    font-family: "fantasy", sans-serif;
+    text-transform: uppercase;
+}
