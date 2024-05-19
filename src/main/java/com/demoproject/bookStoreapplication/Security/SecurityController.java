@@ -25,9 +25,10 @@ public class SecurityController {
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
+
     @GetMapping("/register")
     public String register(Model themodel) {
         themodel.addAttribute("user", new RegisterUser());
@@ -53,6 +54,10 @@ public class SecurityController {
         }
         logger.info("Saving the user with the username:- " + username);
         serviceProvider.RegisterUser(registerUser);
-        return "redirect:/register";
+        themodel.addAttribute("email", registerUser.getEmail());
+        themodel.addAttribute("username", registerUser.getUsername());
+        themodel.addAttribute("firstName", registerUser.getFirstName());
+        themodel.addAttribute("lastName", registerUser.getLastName());
+        return "registrationConfirmation";
     }
 }
