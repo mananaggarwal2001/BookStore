@@ -12,4 +12,5 @@ public interface BookDAO {
     public List<Book> getAllBooks();
 
     public Book getBookAccrodingToId(int theid);
+    public void removeBook(Book thebook);
 }

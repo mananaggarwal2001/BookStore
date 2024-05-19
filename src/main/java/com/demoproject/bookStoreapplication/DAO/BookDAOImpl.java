@@ -47,4 +47,10 @@ public class BookDAOImpl implements BookDAO {
     public Book getBookAccrodingToId(int theid) {
         return entityManager.find(Book.class, theid);
     }
+
+    @Override
+    @Transactional
+    public void removeBook(Book thebook) {
+        entityManager.remove(thebook);
+    }
 }

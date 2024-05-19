@@ -5,9 +5,8 @@ import com.demoproject.bookStoreapplication.Service.BookService;
 import com.demoproject.bookStoreapplication.Service.UserServiceProvider;
 import com.demoproject.bookStoreapplication.databaseClasses.Book;
 import com.demoproject.bookStoreapplication.databaseClasses.Register;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class BookController {
@@ -41,7 +42,20 @@ public class BookController {
     }
 
     @GetMapping("/mybooklist")
-    public String mybooklist() {
+    public String mybooklist(Model themodel, Authentication authentication) {
+        String name = authentication.getName();
+        Register register = userServiceProvider.findUser(name);
+        List<Book> booklist = register.getBooks();
+        Map<Book, Integer> numberofBooks = new HashMap<>();
+        for (Book tempbook : booklist) {
+            numberofBooks.put(tempbook, numberofBooks.getOrDefault(tempbook, 0) + 1);
+        }
+        double totalcost = 0;
+        for (Book key : numberofBooks.keySet()) {
+            totalcost += (key.getPrice() * numberofBooks.get(key));
+        }
+        themodel.addAttribute("bookslist", numberofBooks);
+        themodel.addAttribute("totalcost", totalcost);
         return "mybookslist";
     }
 
@@ -77,5 +91,17 @@ public class BookController {
         user.setBooks(booklist);
         userServiceProvider.addUpdatedUser(user);
         return "redirect:/dashboard";
+    }
+
+    @GetMapping("/removeBook")
+    public String removebook(@RequestParam("bookid") int theid, Authentication authentication) {
+        String username = authentication.getName();
+        Register register = userServiceProvider.findUser(username);
+        Book book = bookService.findBookById(theid);
+        List<Book> booklist = register.getBooks();
+        booklist.remove(book);
+        register.setBooks(booklist);
+        userServiceProvider.addUpdatedUser(register);
+        return "redirect:/mybooklist";
     }
 }
