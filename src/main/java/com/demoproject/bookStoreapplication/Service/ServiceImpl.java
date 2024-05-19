@@ -1,5 +1,6 @@
 package com.demoproject.bookStoreapplication.Service;
 
+import com.demoproject.bookStoreapplication.databaseClasses.Roles;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -18,7 +19,7 @@ import java.util.List;
 @Service
 public class ServiceImpl implements ServiceProvider {
     UserDAO userDAO;
-    private BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     public ServiceImpl(UserDAO userDAO, BCryptPasswordEncoder passwordEncoder) {
@@ -30,11 +31,15 @@ public class ServiceImpl implements ServiceProvider {
     @Transactional
     public void RegisterUser(RegisterUser registerUser) {
         Register user = new Register();
+        Roles findRole = userDAO.findRoleByName("ROLE_USER");
+        List<Roles> rolelist = new ArrayList<>();
+        rolelist.add(findRole);
         user.setFirstName(registerUser.getFirstName());
         user.setLastName(registerUser.getLastName());
         user.setEmail(registerUser.getEmail());
         user.setPassword(passwordEncoder.encode(registerUser.getPassword()));
         user.setUsername(registerUser.getUsername());
+        user.setRole(rolelist);
         user.setEnabled(true);
         userDAO.addUser(user);
     }
@@ -44,11 +49,12 @@ public class ServiceImpl implements ServiceProvider {
         return userDAO.findUser(username);
     }
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Register register = userDAO.findUser(username);
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        authorities.add(new SimpleGrantedAuthority(userDAO.findRoleByName("ROLE_USER").getRole()));
         return new User(register.getUsername(), register.getPassword(), authorities);
     }
 }

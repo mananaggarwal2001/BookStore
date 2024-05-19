@@ -29,16 +29,16 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationSuccessHandler CustomSuccesshandler) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomSuccesshandler customSuccesshandler) throws Exception {
         http.authorizeHttpRequests(config ->
-                config
-                        .requestMatchers("/css/**", "/js/**","/assets/**", "/images/**", "/", "/login", "/register", "/processregistration").permitAll()
-                        .anyRequest().authenticated())
-                .formLogin(form->form.loginPage("/login")
+                        config
+                                .requestMatchers("/css/**", "/js/**", "/assets/**", "/images/**", "/", "/login", "/register", "/processregistration").permitAll()
+                                .anyRequest().authenticated())
+                .formLogin(form -> form.loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .successHandler(CustomSuccesshandler)
+                        .successHandler(customSuccesshandler)
                         .permitAll())
-                .logout(logout->logout.clearAuthentication(true)
+                .logout(logout -> logout.clearAuthentication(true)
                         .invalidateHttpSession(true)
                         .permitAll());
 

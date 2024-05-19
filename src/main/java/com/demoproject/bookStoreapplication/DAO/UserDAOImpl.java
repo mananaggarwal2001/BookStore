@@ -2,6 +2,7 @@ package com.demoproject.bookStoreapplication.DAO;
 
 import com.demoproject.bookStoreapplication.DTO.RegisterUser;
 import com.demoproject.bookStoreapplication.databaseClasses.Register;
+import com.demoproject.bookStoreapplication.databaseClasses.Roles;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.TypedQuery;
@@ -33,5 +34,12 @@ public class UserDAOImpl implements UserDAO {
             resultuser = null;
         }
         return resultuser;
+    }
+
+    @Override
+    public Roles findRoleByName(String roleName) {
+        TypedQuery<Roles> createQuery = entityManager.createQuery("from Roles " + "where role=:rname", Roles.class);
+        createQuery.setParameter("rname", roleName);
+        return createQuery.getSingleResult();
     }
 }

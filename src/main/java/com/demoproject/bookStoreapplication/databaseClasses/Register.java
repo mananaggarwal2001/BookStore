@@ -2,6 +2,8 @@ package com.demoproject.bookStoreapplication.databaseClasses;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "user")
 public class Register {
@@ -14,6 +16,10 @@ public class Register {
     private String username;
     private String password;
     private String email;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(name = "User_Role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Roles> roles;
 
     public Register() {
 
@@ -83,7 +89,16 @@ public class Register {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
+    public void setRole(List<Roles> role) {
+        this.roles = role;
+    }
+
+    public List<Roles> getRole() {
+        return roles;
+    }
     // to String method for displaying the user class
+
 
     @Override
     public String toString() {
