@@ -36,6 +36,7 @@ public class SecurityConfiguration {
                         .permitAll())
                 .logout(logout -> logout.clearAuthentication(true)
                         .invalidateHttpSession(true)
+                        .logoutSuccessUrl("/")
                         .permitAll());
 
         return http.build();

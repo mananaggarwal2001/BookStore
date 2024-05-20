@@ -23,7 +23,7 @@
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/dashboard}">Available Books</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{/dashboard(bookid=-1)}">Available Books</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/mybooklist}">My Books List</a>
@@ -60,9 +60,12 @@
         <td th:text="${tempbook.title}"></td>
         <td th:text="${tempbook.price}"></td>
         <td th:text="${tempbook.availableQuantity}"></td>
-        <td>
+        <td class="d-flex ">
             <form method="post" th:action="@{/addbookaccordingtouser(bookid=${tempbook.getId()})}" action="#">
                 <button type="submit" class="btn btn-primary">Add Book</button>
+            </form>
+            <form class="ms-4" method="post" th:action="@{/deletingbookfromdashboard(bookid=${tempbook.getId()})}" action="#">
+                <button type="submit" class="btn btn-danger">Delete Book</button>
             </form>
         </td>
     </tr>

@@ -41,6 +41,6 @@ public class CustomSuccesshandler implements AuthenticationSuccessHandler {
             addroles.add(temprole.getRole());
         }
         session.setAttribute("role", addroles);
-        response.sendRedirect("/dashboard");
+        response.sendRedirect("/dashboard?bookid=-1");
     }
 }

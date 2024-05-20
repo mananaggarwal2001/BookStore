@@ -77,11 +77,17 @@ public class BookController {
         String title = bookDTO.getTitle();
         Book resultBook = bookService.findBook(title);
         if (resultBook != null) {
-            themodel.addAttribute("error", "Book Already Exist!!!!");
+            themodel.addAttribute("message", "Book Already Exist!!!!");
             return "redirect:/addbook";
         }
-        bookService.addBook(bookDTO);
-        return "redirect:/addbook";
+        try {
+            bookService.addBook(bookDTO);
+            themodel.addAttribute("book", bookDTO);
+        } catch (Exception e) {
+            themodel.addAttribute("message", "Internal Server Error");
+            return "redirect:/addbook";
+        }
+        return "addedbookconfirmationpage";
     }
 
     @PostMapping("/addbookaccordingtouser")
@@ -115,5 +121,16 @@ public class BookController {
         register.setBooks(booklist);
         userServiceProvider.addUpdatedUser(register);
         return "redirect:/mybooklist";
+    }
+
+    // performing the deletion of the book from the list
+    @PostMapping("/deletingbookfromdashboard")
+    public String deleteBook(@RequestParam("bookid") int theid) {
+        Book book = bookService.findBookById(theid);
+        for (Register register : book.getRegisters()) {
+            register.setBooks(null);
+        }
+        bookService.removeBook(book);
+        return "redirect:/dashboard?bookid=-1";
     }
 }
