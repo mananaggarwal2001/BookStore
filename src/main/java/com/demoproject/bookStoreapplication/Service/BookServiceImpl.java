@@ -4,6 +4,7 @@ import com.demoproject.bookStoreapplication.DAO.BookDAO;
 import com.demoproject.bookStoreapplication.DTO.BookDTO;
 import com.demoproject.bookStoreapplication.databaseClasses.Book;
 import com.demoproject.bookStoreapplication.databaseClasses.Register;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,5 +39,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book findBookById(int theid) {
         return bookDAO.getBookAccrodingToId(theid);
+    }
+
+    @Override
+    @Transactional
+    public void removeBook(Book book) {
+        bookDAO.removeBook(book);
     }
 }

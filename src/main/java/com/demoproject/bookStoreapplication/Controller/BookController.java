@@ -5,6 +5,7 @@ import com.demoproject.bookStoreapplication.Service.BookService;
 import com.demoproject.bookStoreapplication.Service.UserServiceProvider;
 import com.demoproject.bookStoreapplication.databaseClasses.Book;
 import com.demoproject.bookStoreapplication.databaseClasses.Register;
+import org.apache.coyote.Response;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,9 +37,14 @@ public class BookController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(Model themodel) {
+    public String dashboard(@RequestParam("bookid") int bookid, Model themodel) {
         List<Book> booklist = bookService.bookList();
         themodel.addAttribute("booklist", booklist);
+        if (bookid == -1) {
+            themodel.addAttribute("error", null);
+        } else {
+            themodel.addAttribute("error", "Book is not available at this is moment!!!!!!!!");
+        }
         return "dashboard";
     }
 
@@ -70,27 +77,31 @@ public class BookController {
         String title = bookDTO.getTitle();
         Book resultBook = bookService.findBook(title);
         if (resultBook != null) {
-            themodel.addAttribute("error", "Book Already Exist");
+            themodel.addAttribute("error", "Book Already Exist!!!!");
             return "redirect:/addbook";
         }
         bookService.addBook(bookDTO);
         return "redirect:/addbook";
     }
 
-    @GetMapping("/addbookaccordingtouser")
-    public String addBookAccordingtouser(@RequestParam("bookid") int theid, Model themodel, Authentication authentication) {
+    @PostMapping("/addbookaccordingtouser")
+    public String addBookAccordingtouser(@RequestParam("bookid") int theid, Model themodel, Authentication authentication, Response response) {
         String username = authentication.getName();
-        System.out.println(theid);
         Book book = bookService.findBookById(theid);
         Register user = userServiceProvider.findUser(username);
         List<Book> booklist = user.getBooks();
         if (booklist == null) {
             booklist = new ArrayList<>();
         }
+        if (book.getAvailableQuantity() <= 0) {
+            int resultid = book.getId();
+            return "redirect:/dashboard?bookid=" + resultid;
+        }
+        book.setAvailableQuantity(book.getAvailableQuantity() - 1);
         booklist.add(book);
         user.setBooks(booklist);
         userServiceProvider.addUpdatedUser(user);
-        return "redirect:/dashboard";
+        return "redirect:/dashboard?bookid=-1";
     }
 
     @GetMapping("/removeBook")
@@ -98,6 +109,7 @@ public class BookController {
         String username = authentication.getName();
         Register register = userServiceProvider.findUser(username);
         Book book = bookService.findBookById(theid);
+        book.setAvailableQuantity(book.getAvailableQuantity() + 1);
         List<Book> booklist = register.getBooks();
         booklist.remove(book);
         register.setBooks(booklist);

@@ -11,4 +11,5 @@ public interface BookService {
     Book findBook(String title);
     List<Book> bookList();
     Book findBookById(int theid);
+    void removeBook(Book book);
 }

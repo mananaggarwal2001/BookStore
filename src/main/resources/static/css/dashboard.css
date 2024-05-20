@@ -22,3 +22,10 @@
     display: flex;
     justify-content: flex-end;
 }
+
+.dashboardtable{
+    margin-top: 55px;
+}
+.alert{
+    width: 100%;
+}

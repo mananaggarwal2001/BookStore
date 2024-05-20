@@ -1,6 +1,7 @@
 package com.demoproject.bookStoreapplication.DAO;
 
 import com.demoproject.bookStoreapplication.databaseClasses.Book;
+import com.demoproject.bookStoreapplication.databaseClasses.Register;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -49,7 +50,6 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    @Transactional
     public void removeBook(Book thebook) {
         entityManager.remove(thebook);
     }
