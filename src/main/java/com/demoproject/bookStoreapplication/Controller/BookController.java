@@ -6,20 +6,16 @@ import com.demoproject.bookStoreapplication.Service.UserServiceProvider;
 import com.demoproject.bookStoreapplication.databaseClasses.Book;
 import com.demoproject.bookStoreapplication.databaseClasses.Register;
 import org.apache.coyote.Response;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class BookController {
@@ -30,9 +26,16 @@ public class BookController {
         this.bookService = bookService;
         this.userServiceProvider = userServiceProvider;
     }
-
+    @InitBinder
+    public void initbinder(WebDataBinder binder) {
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+        binder.registerCustomEditor(String.class, stringTrimmerEditor);
+    }
     @GetMapping("/")
-    public String home() {
+    public String home(Model themodel) {
+        Calendar calendar = new GregorianCalendar();
+        String year = String.valueOf(calendar.get(Calendar.YEAR));
+        themodel.addAttribute("year", year);
         return "home";
     }
 

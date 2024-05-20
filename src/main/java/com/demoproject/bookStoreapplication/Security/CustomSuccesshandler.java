@@ -1,5 +1,4 @@
 package com.demoproject.bookStoreapplication.Security;
-
 import com.demoproject.bookStoreapplication.Service.UserServiceProvider;
 import com.demoproject.bookStoreapplication.databaseClasses.Register;
 import com.demoproject.bookStoreapplication.databaseClasses.Roles;
@@ -12,7 +11,6 @@ import org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfigur
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

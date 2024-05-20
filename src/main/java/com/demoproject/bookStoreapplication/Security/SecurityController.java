@@ -4,10 +4,13 @@ import com.demoproject.bookStoreapplication.DTO.RegisterUser;
 import com.demoproject.bookStoreapplication.Service.UserServiceProvider;
 import com.demoproject.bookStoreapplication.databaseClasses.Register;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -17,6 +20,12 @@ import java.util.logging.Logger;
 public class SecurityController {
     Logger logger = Logger.getLogger(SecurityController.class.getName());
     UserServiceProvider userServiceProvider;
+
+    @InitBinder
+    public void initbinder(WebDataBinder binder) {
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+        binder.registerCustomEditor(String.class, stringTrimmerEditor);
+    }
 
     @Autowired
     public SecurityController(UserServiceProvider userServiceProvider) {
