@@ -23,7 +23,8 @@
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/dashboard(bookid=-1)}">Available Books</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{/dashboard}">Available
+                        Books</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/mybooklist}">My Books List</a>
@@ -42,7 +43,8 @@
         </div>
     </div>
 </nav>
-<div th:if="${error!=null}" data-bs-dismiss="alert" class="alert alert-warning alert-dismissible fade show position-absolute" role="alert">
+<div th:if="${param.error!=null}" data-bs-dismiss="alert"
+     class="alert alert-warning alert-dismissible fade show position-absolute" role="alert">
     <strong>Warning</strong> [[${error}]]
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
@@ -64,7 +66,8 @@
             <form method="post" th:action="@{/addbookaccordingtouser(bookid=${tempbook.getId()})}" action="#">
                 <button type="submit" class="btn btn-primary">Add Book</button>
             </form>
-            <form class="ms-4" method="post" th:action="@{/deletingbookfromdashboard(bookid=${tempbook.getId()})}" action="#">
+            <form class="ms-4" method="post" th:action="@{/deletingbookfromdashboard(bookid=${tempbook.getId()})}"
+                  action="#">
                 <button type="submit" class="btn btn-danger">Delete Book</button>
             </form>
         </td>

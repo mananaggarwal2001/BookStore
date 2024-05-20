@@ -26,11 +26,13 @@ public class BookController {
         this.bookService = bookService;
         this.userServiceProvider = userServiceProvider;
     }
+
     @InitBinder
     public void initbinder(WebDataBinder binder) {
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
         binder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
+
     @GetMapping("/")
     public String home(Model themodel) {
         Calendar calendar = new GregorianCalendar();
@@ -40,14 +42,10 @@ public class BookController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(@RequestParam("bookid") int bookid, Model themodel) {
+    public String dashboard(Model themodel) {
         List<Book> booklist = bookService.bookList();
         themodel.addAttribute("booklist", booklist);
-        if (bookid == -1) {
-            themodel.addAttribute("error", null);
-        } else {
-            themodel.addAttribute("error", "Book is not available at this is moment!!!!!!!!");
-        }
+        themodel.addAttribute("error", "Book is not available at this is moment!!!!!!!!");
         return "dashboard";
     }
 
@@ -72,6 +70,7 @@ public class BookController {
     @GetMapping("/addbook")
     public String addBook(Model themodel) {
         themodel.addAttribute("book", new BookDTO());
+        themodel.addAttribute("error", "Book Already Exists!!!!!!!");
         return "bookform";
     }
 
@@ -81,7 +80,7 @@ public class BookController {
         Book resultBook = bookService.findBook(title);
         if (resultBook != null) {
             themodel.addAttribute("message", "Book Already Exist!!!!");
-            return "redirect:/addbook";
+            return "redirect:/addbook?error";
         }
         try {
             bookService.addBook(bookDTO);
@@ -104,13 +103,13 @@ public class BookController {
         }
         if (book.getAvailableQuantity() <= 0) {
             int resultid = book.getId();
-            return "redirect:/dashboard?bookid=" + resultid;
+            return "redirect:/dashboard?error";
         }
         book.setAvailableQuantity(book.getAvailableQuantity() - 1);
         booklist.add(book);
         user.setBooks(booklist);
         userServiceProvider.addUpdatedUser(user);
-        return "redirect:/dashboard?bookid=-1";
+        return "redirect:/dashboard";
     }
 
     @GetMapping("/removeBook")
@@ -134,6 +133,6 @@ public class BookController {
             register.setBooks(null);
         }
         bookService.removeBook(book);
-        return "redirect:/dashboard?bookid=-1";
+        return "redirect:/dashboard";
     }
 }

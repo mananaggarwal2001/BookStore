@@ -1,5 +1,4 @@
 package com.demoproject.bookStoreapplication.Security;
-
 import com.demoproject.bookStoreapplication.DTO.RegisterUser;
 import com.demoproject.bookStoreapplication.Service.UserServiceProvider;
 import com.demoproject.bookStoreapplication.databaseClasses.Register;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import java.util.logging.Logger;
 
 @Controller
@@ -33,7 +31,8 @@ public class SecurityController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model themodel) {
+        themodel.addAttribute("error", "Invalid Credentials!!!!!!!");
         return "login";
     }
 
